@@ -44,7 +44,7 @@ class TableService extends Subject {
     };
 
     // create an iterable array of all the selected columns
-    this.selectedColumns = [this.columns["name"], this.columns["email"]];
+    this.selectedColumns = ["name", "email"];
 
     // pagination settings
     this.page = 0;
@@ -52,27 +52,11 @@ class TableService extends Subject {
   }
 
   isColumnSelected(key) {
-    return this.selectedColumns.some(column => column.key === key);
+    return this.selectedColumns.some(column => column === key);
   }
 
-  selectColumn(key) {
-    this.selectedColumns.push(this.columns[key]);
-  }
-
-  deselectColumn(key) {
-    const columnIndex = this.selectedColumns.indexOf(this.columns[key]);
-    this.selectedColumns.splice(columnIndex, 1);
-  }
-
-  toggleColumnSelection(key) {
-    if (this.columns[key].disabled) {
-      return;
-    }
-    if (this.isColumnSelected(key)) {
-      this.deselectColumn(key);
-    } else {
-      this.selectColumn(key);
-    }
+  updateColumns(columns) {
+    this.selectedColumns = columns;
     this.next(this);
   }
 

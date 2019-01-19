@@ -3,17 +3,25 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import blue from "@material-ui/core/colors/blue";
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue,
+    primary: {
+      light: "#757ce8",
+      main: "#3f50b5",
+      dark: "#002884",
+      contrastText: "#fff"
+    },
     secondary: {
-      main: "#80d8ff"
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000"
     }
   },
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    fontSize: 14
   }
 });
 

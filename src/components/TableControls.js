@@ -1,37 +1,55 @@
 import React from "react";
 import EmployeeService from "../services/employees.service";
 import TableService from "../services/table.service";
-import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import { lighten } from "@material-ui/core/styles/colorManipulator";
 import {
-  Button,
-  Menu,
   MenuItem,
   Checkbox,
   TextField,
-  TablePagination
+  TablePagination,
+  ListItemText,
+  Toolbar,
+  FormControl,
+  Select,
+  InputLabel,
+  Input
 } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
-    paddingRight: theme.spacing.unit
+    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    fontSize: "1em"
   },
-  highlight: {
-    color: theme.palette.secondary.main,
-    backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+    maxWidth: 300
   },
   button: {
     margin: theme.spacing.unit
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
+    margin: theme.spacing.unit
   },
   pagination: {
-    align: "right"
+    align: "right",
+    fontSize: "0.75rem"
+  },
+  "@media (max-width: 767px)": {
+    root: {
+      flexDirection: "column",
+      alignItems: "flex-start"
+    },
+    textField: {
+      margin: `${theme.spacing.unit} 0`
+    },
+    formControl: {
+      margin: `${theme.spacing.unit} 0`
+    }
   }
 });
 
@@ -40,7 +58,6 @@ class TableControls extends React.Component {
     super(props);
 
     this.state = {
-      showColumns: null,
       tableService: TableService
     };
 
@@ -53,17 +70,8 @@ class TableControls extends React.Component {
     this.observer.unsubscribe();
   }
 
-  handleColumnsClick = event => {
-    this.setState({ showColumns: event.currentTarget });
-  };
-
-  handleColumnsClose = () => {
-    this.setState({ showColumns: null });
-  };
-
-  handleColumnChange = key => () => {
-    this.handleColumnsClose();
-    TableService.toggleColumnSelection(key);
+  handleColumnChange = event => {
+    TableService.updateColumns(event.target.value);
   };
 
   handleChangePage = (event, newPage) => {
@@ -77,52 +85,47 @@ class TableControls extends React.Component {
   };
 
   render() {
-    const { totalRecords, numSelected, filterList, classes } = this.props;
-    const { showColumns, tableService } = this.state;
+    const { totalRecords, filterList, classes } = this.props;
+    const { tableService } = this.state;
 
     return (
-      <Toolbar
-        className={classNames(classes.root, {
-          [classes.highlight]: numSelected > 0
-        })}
-      >
-        <TextField
-          id="filter"
-          label="Filter by name"
-          type="search"
-          className={classes.textField}
-          margin="normal"
-          onChange={filterList}
-        />
+      <Toolbar className={classes.root}>
+        <FormControl className={classes.formControl}>
+          <TextField
+            id="filter"
+            label="Filter by name"
+            type="search"
+            className={classes.textField}
+            margin="normal"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={filterList}
+          />
+        </FormControl>
 
-        <Button
-          variant="outlined"
-          className={classes.button}
-          onClick={this.handleColumnsClick}
-        >
-          Also Show
-        </Button>
-        <Menu
-          anchorEl={showColumns}
-          open={Boolean(showColumns)}
-          onClose={this.handleClose}
-        >
-          {Object.keys(tableService.columns).map((key, i) => (
-            <MenuItem
-              key={i}
-              className={classNames(classes.menuItem, {
-                [classes.menuItemDisabled]: tableService.columns[key].disabled
-              })}
-              onClick={this.handleColumnChange(key)}
-            >
-              <Checkbox
-                checked={tableService.isColumnSelected(key)}
-                disabled={tableService.columns[key].disabled}
-              />
-              {tableService.columns[key].label}
-            </MenuItem>
-          ))}
-        </Menu>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="select-multiple-checkbox">Columns</InputLabel>
+          <Select
+            multiple
+            value={tableService.selectedColumns}
+            input={<Input id="select-multiple-checkbox" />}
+            renderValue={selected =>
+              selected.map(s => tableService.columns[s].label).join(", ")
+            }
+            onChange={this.handleColumnChange}
+          >
+            {Object.keys(tableService.columns).map((key, i) => (
+              <MenuItem key={i} className={classes.menuItem} value={key}>
+                <Checkbox
+                  checked={tableService.isColumnSelected(key)}
+                  disabled={tableService.columns[key].disabled}
+                />
+                <ListItemText primary={tableService.columns[key].label} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <TablePagination
           className={classes.pagination}

@@ -23,6 +23,9 @@ const styles = theme => ({
   link: {
     fontSize: "1.2em",
     lineHeight: "1.4em"
+  },
+  row: {
+    whiteSpace: "nowrap"
   }
 });
 
@@ -30,12 +33,12 @@ const Employee = props => {
   const { employee, selectedColumns, classes } = props;
   const name = `${employee.firstName} ${employee.lastName}`;
   return (
-    <TableRow key={employee.id}>
+    <TableRow key={employee.id} className={classes.row}>
       {selectedColumns.map((column, i) => {
-        switch (column.key) {
+        switch (column) {
           case "name":
             return (
-              <TableCell key={i} component="th" scope="row">
+              <TableCell key={i} component="td" scope="row">
                 <div className={classes.user}>
                   <Avatar
                     alt={name}
@@ -54,15 +57,15 @@ const Employee = props => {
 
           case "isActive":
             return (
-              <TableCell key={i} component="th" scope="row">
-                {employee[column.key] ? "Active" : "Inactive"}
+              <TableCell key={i} component="td" scope="row">
+                {employee[column] ? "Active" : "Inactive"}
               </TableCell>
             );
 
           default:
             return (
-              <TableCell key={i} component="th" scope="row">
-                {employee[column.key]}
+              <TableCell key={i} component="td" scope="row">
+                {employee[column]}
               </TableCell>
             );
         }

@@ -18,8 +18,9 @@ import {
 
 const styles = theme => ({
   root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
+    margin: theme.spacing.unit * 2
+  },
+  tableWrapper: {
     overflowX: "auto"
   },
   table: {
@@ -81,44 +82,46 @@ class EmployeesList extends React.Component {
             totalRecords={EmployeesService.list.length}
           />
 
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                {TableService.selectedColumns.map((column, i) => (
-                  <TableCell
-                    key={i}
-                    sortDirection={orderBy === column.key ? order : false}
-                  >
-                    <Tooltip
-                      title="Sort"
-                      placement="bottom-end"
-                      enterDelay={300}
+          <div className={classes.tableWrapper}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  {TableService.selectedColumns.map((column, i) => (
+                    <TableCell
+                      key={i}
+                      sortDirection={orderBy === column ? order : false}
                     >
-                      <TableSortLabel
-                        active={orderBy === column.key}
-                        direction={order}
-                        onClick={this.sort(column.key)}
+                      <Tooltip
+                        title="Sort"
+                        placement="bottom-end"
+                        enterDelay={300}
                       >
-                        {column.label}
-                      </TableSortLabel>
-                    </Tooltip>
-                  </TableCell>
+                        <TableSortLabel
+                          active={orderBy === column}
+                          direction={order}
+                          onClick={this.sort(column)}
+                        >
+                          {TableService.columns[column].label}
+                        </TableSortLabel>
+                      </Tooltip>
+                    </TableCell>
+                  ))}
+
+                  <TableCell align="right">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {employees.map((employee, i) => (
+                  <Employee
+                    key={i}
+                    employee={employee}
+                    selectedColumns={TableService.selectedColumns}
+                  />
                 ))}
-
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {employees.map((employee, i) => (
-                <Employee
-                  key={i}
-                  employee={employee}
-                  selectedColumns={TableService.selectedColumns}
-                />
-              ))}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+          </div>
         </Paper>
       );
     } else if (loading) {
