@@ -71,7 +71,7 @@ const Employee = props => {
         }
       })}
       <TableCell align="right">
-        <EmployeeActions />
+        <EmployeeActions employee={employee} />
       </TableCell>
     </TableRow>
   );

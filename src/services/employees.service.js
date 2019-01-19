@@ -81,6 +81,13 @@ class EmployeesService extends Subject {
       return result * sortOrder;
     };
   }
+
+  async update(action, index = -1) {
+    if (action === "delete") {
+      await this.list.splice(index, 1);
+      this.paginate();
+    }
+  }
 }
 
 const singleton = new EmployeesService();

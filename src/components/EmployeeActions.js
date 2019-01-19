@@ -1,7 +1,7 @@
 import React from "react";
-
+import EmployeesService from "../services/employees.service";
+import DeleteModal from "./DeleteModal";
 import { withStyles } from "@material-ui/core/styles";
-
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -32,20 +32,38 @@ const styles = theme => ({
 
 class EmployeeActions extends React.Component {
   state = {
-    anchorElement: null
+    anchorElement: null,
+    openDelete: false
   };
 
-  handleClick = event => {
+  handleOpenActionsClick = event => {
     this.setState({ anchorElement: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleActionsClose = () => {
     this.setState({ anchorElement: null });
+  };
+
+  confirmDelete = id => {
+    this.setState({ openDelete: true });
+  };
+
+  deleteEmployee = () => {
+    const { employee } = this.props;
+    const employeeIndex = EmployeesService.list.indexOf(employee);
+    employee.delete().then(() => {
+      this.setState({ openDelete: false });
+      EmployeesService.update("delete", employeeIndex);
+    });
+  };
+
+  closeDeleteModal = () => {
+    this.setState({ openDelete: false });
   };
 
   render() {
     const { classes } = this.props;
-    const { anchorElement } = this.state;
+    const { anchorElement, openDelete } = this.state;
 
     return (
       <div>
@@ -57,14 +75,14 @@ class EmployeeActions extends React.Component {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={this.handleClick}
+          onClick={this.handleOpenActionsClick}
         >
           Actions
         </Button>
         <Menu
           anchorEl={anchorElement}
           open={Boolean(anchorElement)}
-          onClose={this.handleClose}
+          onClose={this.handleActionsClose}
         >
           <MenuItem className={classes.menuItem}>
             <ListItemIcon className={classes.icon}>
@@ -76,7 +94,7 @@ class EmployeeActions extends React.Component {
               primary="Edit"
             />
           </MenuItem>
-          <MenuItem className={classes.menuItem}>
+          <MenuItem className={classes.menuItem} onClick={this.confirmDelete}>
             <ListItemIcon className={classes.icon}>
               <DeleteIcon />
             </ListItemIcon>
@@ -87,6 +105,12 @@ class EmployeeActions extends React.Component {
             />
           </MenuItem>
         </Menu>
+
+        <DeleteModal
+          open={openDelete}
+          onClose={this.closeDeleteModal}
+          deleteEmployee={this.deleteEmployee.bind(this)}
+        />
       </div>
     );
   }
