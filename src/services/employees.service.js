@@ -26,7 +26,33 @@ class EmployeesService extends Subject {
     this.handleResponse(response);
   }
 
-  async add(employee) {}
+  async add(data) {
+    const response = await fetch(
+      `https://5c4002352928860014e06f43.mockapi.io/api/employee`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }
+    );
+    this.addToList(response);
+  }
+
+  async addToList(response) {
+    let data;
+    try {
+      data = await response.json();
+      if (data.error) {
+        throw data.error;
+      }
+      this.list.push(new Employee(data));
+      return this.sortList();
+    } catch (error) {
+      throw error || "An unknown error has occurred";
+    }
+  }
 
   async handleResponse(response) {
     let data;
@@ -85,6 +111,8 @@ class EmployeesService extends Subject {
   async update(action, index = -1) {
     if (action === "delete") {
       await this.list.splice(index, 1);
+      this.paginate();
+    } else {
       this.paginate();
     }
   }

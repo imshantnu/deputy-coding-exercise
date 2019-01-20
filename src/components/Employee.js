@@ -30,7 +30,13 @@ const styles = theme => ({
 });
 
 const Employee = props => {
-  const { employee, selectedColumns, classes } = props;
+  const {
+    employee,
+    selectedColumns,
+    classes,
+    openEmployeeModal,
+    openAddEditModal
+  } = props;
   const name = `${employee.firstName} ${employee.lastName}`;
   return (
     <TableRow key={employee.id} className={classes.row}>
@@ -46,7 +52,11 @@ const Employee = props => {
                     className={classes.avatar}
                   />
                   <div className={classes.name}>
-                    <Link href="#" className={classes.link}>
+                    <Link
+                      href="#"
+                      onClick={openEmployeeModal(employee)}
+                      className={classes.link}
+                    >
                       {name}
                     </Link>
                     <em>{employee.role}</em>
@@ -58,7 +68,7 @@ const Employee = props => {
           case "isActive":
             return (
               <TableCell key={i} component="td" scope="row">
-                {employee[column] ? "Active" : "Inactive"}
+                {employee[column] ? "On-Shift" : ""}
               </TableCell>
             );
 
@@ -71,7 +81,11 @@ const Employee = props => {
         }
       })}
       <TableCell align="right">
-        <EmployeeActions employee={employee} />
+        <EmployeeActions
+          employee={employee}
+          openEmployeeModal={openEmployeeModal}
+          openAddEditModal={openAddEditModal}
+        />
       </TableCell>
     </TableRow>
   );

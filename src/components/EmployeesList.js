@@ -13,8 +13,12 @@ import {
   TableRow,
   Tooltip,
   TableSortLabel,
-  Paper
+  Paper,
+  Fab
 } from "@material-ui/core";
+import EmployeeModal from "./EmployeeModal";
+import AddEditEmployee from "./AddEditEmployee";
+import FaceIcon from "@material-ui/icons/Face";
 
 const styles = theme => ({
   root: {
@@ -25,6 +29,11 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700
+  },
+  fab: {
+    position: "fixed",
+    bottom: theme.spacing.unit,
+    right: theme.spacing.unit
   }
 });
 
@@ -36,7 +45,13 @@ class EmployeesList extends React.Component {
       order: "asc",
       orderBy: "name",
       TableService: TableService,
-      loading: true
+      loading: true,
+      employeeModalConfig: {
+        open: false
+      },
+      addEditEmployeeConfig: {
+        open: false
+      }
     };
 
     this.observer = EmployeesService.subscribe(employees => {
@@ -65,15 +80,58 @@ class EmployeesList extends React.Component {
       order: order,
       orderBy: orderBy
     });
+
     EmployeesService.sortList(orderBy, order).then(() => {
       EmployeesService.paginate();
       TableService.resetPagination();
     });
   };
 
+  openEmployeeModal = employee => () => {
+    this.setState({
+      employeeModalConfig: {
+        open: true,
+        employee: employee
+      }
+    });
+  };
+
+  closeEmployeeModal = () => {
+    this.setState({
+      employeeModalConfig: {
+        open: false
+      }
+    });
+  };
+
+  openAddEditModal = employee => () => {
+    this.setState({
+      addEditEmployeeConfig: {
+        open: true,
+        employee: employee
+      }
+    });
+  };
+
+  closeAddEditModal = () => {
+    this.setState({
+      addEditEmployeeConfig: {
+        open: false
+      }
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    const { loading, employees, TableService, orderBy, order } = this.state;
+    const {
+      loading,
+      employees,
+      TableService,
+      orderBy,
+      order,
+      employeeModalConfig,
+      addEditEmployeeConfig
+    } = this.state;
     if (!loading && employees.length) {
       return (
         <Paper className={classes.root}>
@@ -117,11 +175,33 @@ class EmployeesList extends React.Component {
                     key={i}
                     employee={employee}
                     selectedColumns={TableService.selectedColumns}
+                    openEmployeeModal={this.openEmployeeModal}
+                    openAddEditModal={this.openAddEditModal}
                   />
                 ))}
               </TableBody>
             </Table>
           </div>
+
+          <EmployeeModal
+            open={employeeModalConfig.open}
+            employee={employeeModalConfig.employee}
+            onClose={this.closeEmployeeModal}
+          />
+
+          <AddEditEmployee
+            open={addEditEmployeeConfig.open}
+            employee={addEditEmployeeConfig.employee}
+            onClose={this.closeAddEditModal}
+          />
+          <Fab
+            aria-label="Add New Employee"
+            className={classes.fab}
+            color="primary"
+            onClick={this.openAddEditModal()}
+          >
+            <FaceIcon />
+          </Fab>
         </Paper>
       );
     } else if (loading) {

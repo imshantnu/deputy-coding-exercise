@@ -62,12 +62,22 @@ class EmployeeActions extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      openEmployeeModal,
+      openAddEditModal,
+      employee
+    } = this.props;
     const { anchorElement, openDelete } = this.state;
 
     return (
       <div>
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={openEmployeeModal(employee)}
+        >
           View
         </Button>
 
@@ -84,7 +94,10 @@ class EmployeeActions extends React.Component {
           open={Boolean(anchorElement)}
           onClose={this.handleActionsClose}
         >
-          <MenuItem className={classes.menuItem}>
+          <MenuItem
+            className={classes.menuItem}
+            onClick={openAddEditModal(employee)}
+          >
             <ListItemIcon className={classes.icon}>
               <EditIcon />
             </ListItemIcon>
