@@ -72,7 +72,7 @@ class EmployeesService extends Subject {
   async filterList(event) {
     const keyword = event.target ? event.target.value : event;
     if (!keyword.length) {
-      this.next(this.list);
+      this.update();
     }
     const filteredList = this.list.filter(
       employee =>

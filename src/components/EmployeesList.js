@@ -30,6 +30,9 @@ const styles = theme => ({
   table: {
     minWidth: 700
   },
+  center: {
+    textAlign: "center"
+  },
   fab: {
     position: "fixed",
     bottom: theme.spacing.unit,
@@ -132,7 +135,7 @@ class EmployeesList extends React.Component {
       employeeModalConfig,
       addEditEmployeeConfig
     } = this.state;
-    if (!loading && employees.length) {
+    if (!loading) {
       return (
         <Paper className={classes.root}>
           <TableControls
@@ -170,6 +173,16 @@ class EmployeesList extends React.Component {
               </TableHead>
 
               <TableBody>
+                {employees.length === 0 && (
+                  <TableRow>
+                    <TableCell
+                      colSpan={TableService.selectedColumns.length + 1}
+                      className={classes.center}
+                    >
+                      No results found!
+                    </TableCell>
+                  </TableRow>
+                )}
                 {employees.map((employee, i) => (
                   <Employee
                     key={i}
