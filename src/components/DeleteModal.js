@@ -11,12 +11,7 @@ import {
 const DeleteModal = props => {
   const { open, onClose, deleteEmployee } = props;
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle id="alert-dialog-title">{"Delete Employee"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
@@ -24,7 +19,7 @@ const DeleteModal = props => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button id="closeButton" onClick={onClose} color="primary">
+        <Button id="closeButton" onClick={onClose} color="secondary">
           Cancel
         </Button>
         <Button onClick={deleteEmployee} color="primary" autoFocus>

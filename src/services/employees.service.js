@@ -10,6 +10,7 @@ class EmployeesService extends Subject {
   }
 
   init() {
+    // if we dont have an existing promise; create a new promise to fetch list
     if (!this.promise) {
       this.promise = this.getList();
     }
@@ -71,8 +72,8 @@ class EmployeesService extends Subject {
     }
     const filteredList = this.list.filter(
       employee =>
-        employee.firstName.toLowerCase().includes(keyword) ||
-        employee.lastName.toLowerCase().includes(keyword)
+        employee.firstName.toLowerCase().includes(keyword.toLowerCase()) ||
+        employee.lastName.toLowerCase().includes(keyword.toLowerCase())
     );
     await this.next(filteredList);
   }

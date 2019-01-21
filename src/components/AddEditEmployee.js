@@ -101,6 +101,7 @@ class AddEditEmployee extends React.Component {
 
   saveGeneralDetails(event) {
     event.preventDefault();
+    // construct the payload to save at later stage;
     const payload = {
       ...this.state.payload,
       firstName: event.target.firstName.value,
