@@ -1,6 +1,6 @@
 import React from "react";
 import EmployeeService from "../services/employees.service";
-import TableService from "../services/table.service";
+import ColumnService from "../services/columns.service";
 import { withStyles } from "@material-ui/core/styles";
 import {
   MenuItem,
@@ -58,11 +58,11 @@ class TableControls extends React.Component {
     super(props);
 
     this.state = {
-      tableService: TableService
+      ColumnService: ColumnService
     };
 
-    this.observer = TableService.subscribe(svc =>
-      this.setState({ tableService: svc })
+    this.observer = ColumnService.subscribe(svc =>
+      this.setState({ ColumnService: svc })
     );
   }
 
@@ -71,22 +71,22 @@ class TableControls extends React.Component {
   }
 
   handleColumnChange = event => {
-    TableService.updateColumns(event.target.value);
+    ColumnService.updateColumns(event.target.value);
   };
 
   handleChangePage = (event, newPage) => {
-    TableService.page = newPage;
-    EmployeeService.paginate(TableService.page, TableService.rowsPerPage);
+    ColumnService.page = newPage;
+    EmployeeService.paginate(ColumnService.page, ColumnService.rowsPerPage);
   };
 
   handleChangeRowsPerPage = event => {
-    TableService.rowsPerPage = event.target.value;
-    EmployeeService.paginate(TableService.page, TableService.rowsPerPage);
+    ColumnService.rowsPerPage = event.target.value;
+    EmployeeService.paginate(ColumnService.page, ColumnService.rowsPerPage);
   };
 
   render() {
     const { totalRecords, filterList, classes } = this.props;
-    const { tableService } = this.state;
+    const { ColumnService } = this.state;
 
     return (
       <Toolbar className={classes.root}>
@@ -108,20 +108,20 @@ class TableControls extends React.Component {
           <InputLabel htmlFor="select-multiple-checkbox">Columns</InputLabel>
           <Select
             multiple
-            value={tableService.selectedColumns}
+            value={ColumnService.selectedColumns}
             input={<Input id="select-multiple-checkbox" />}
             renderValue={selected =>
-              selected.map(s => tableService.columns[s].label).join(", ")
+              selected.map(s => ColumnService.columns[s].label).join(", ")
             }
             onChange={this.handleColumnChange}
           >
-            {Object.keys(tableService.columns).map((key, i) => (
+            {Object.keys(ColumnService.columns).map((key, i) => (
               <MenuItem key={i} className={classes.menuItem} value={key}>
                 <Checkbox
-                  checked={tableService.isColumnSelected(key)}
-                  disabled={tableService.columns[key].disabled}
+                  checked={ColumnService.isColumnSelected(key)}
+                  disabled={ColumnService.columns[key].disabled}
                 />
-                <ListItemText primary={tableService.columns[key].label} />
+                <ListItemText primary={ColumnService.columns[key].label} />
               </MenuItem>
             ))}
           </Select>
@@ -132,8 +132,8 @@ class TableControls extends React.Component {
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={totalRecords}
-          rowsPerPage={tableService.rowsPerPage}
-          page={tableService.page}
+          rowsPerPage={ColumnService.rowsPerPage}
+          page={ColumnService.page}
           backIconButtonProps={{
             "aria-label": "Previous Page"
           }}

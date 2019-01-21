@@ -1,6 +1,6 @@
 import React from "react";
 import EmployeesService from "../services/employees.service";
-import TableService from "../services/table.service";
+import ColumnService from "../services/columns.service";
 import TableControls from "./TableControls";
 import Employee from "./Employee";
 import { withStyles } from "@material-ui/core/styles";
@@ -52,7 +52,7 @@ class EmployeesList extends React.Component {
       employees: [],
       order: "asc",
       orderBy: "name",
-      TableService: TableService,
+      ColumnService: ColumnService,
       loading: true,
       employeeModalConfig: {
         open: false
@@ -66,8 +66,8 @@ class EmployeesList extends React.Component {
       this.setState({ employees: employees, loading: false });
     });
 
-    this.tableSubscriber = TableService.subscribe(svc => {
-      this.setState({ TableService: svc });
+    this.tableSubscriber = ColumnService.subscribe(svc => {
+      this.setState({ ColumnService: svc });
     });
 
     EmployeesService.init();
@@ -91,7 +91,7 @@ class EmployeesList extends React.Component {
 
     EmployeesService.sortList(orderBy, order).then(() => {
       EmployeesService.paginate();
-      TableService.resetPagination();
+      ColumnService.resetPagination();
     });
   };
 
@@ -134,7 +134,7 @@ class EmployeesList extends React.Component {
     const {
       loading,
       employees,
-      TableService,
+      ColumnService,
       orderBy,
       order,
       employeeModalConfig,
@@ -152,7 +152,7 @@ class EmployeesList extends React.Component {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  {TableService.selectedColumns.map((column, i) => (
+                  {ColumnService.selectedColumns.map((column, i) => (
                     <TableCell
                       key={i}
                       sortDirection={orderBy === column ? order : false}
@@ -167,7 +167,7 @@ class EmployeesList extends React.Component {
                           direction={order}
                           onClick={this.sort(column)}
                         >
-                          {TableService.columns[column].label}
+                          {ColumnService.columns[column].label}
                         </TableSortLabel>
                       </Tooltip>
                     </TableCell>
@@ -181,7 +181,7 @@ class EmployeesList extends React.Component {
                 {employees.length === 0 && (
                   <TableRow>
                     <TableCell
-                      colSpan={TableService.selectedColumns.length + 1}
+                      colSpan={ColumnService.selectedColumns.length + 1}
                       className={classes.center}
                     >
                       No results found!
@@ -192,7 +192,7 @@ class EmployeesList extends React.Component {
                   <Employee
                     key={i}
                     employee={employee}
-                    selectedColumns={TableService.selectedColumns}
+                    selectedColumns={ColumnService.selectedColumns}
                     openEmployeeModal={this.openEmployeeModal}
                     openAddEditModal={this.openAddEditModal}
                   />

@@ -1,6 +1,6 @@
 import { Subject } from "rxjs";
 
-class TableService extends Subject {
+class ColumnService extends Subject {
   constructor() {
     super();
 
@@ -40,6 +40,26 @@ class TableService extends Subject {
         key: "leaves",
         disabled: false,
         label: "Leaves Balance"
+      },
+      city: {
+        key: "city",
+        disabled: false,
+        label: "City"
+      },
+      code: {
+        key: "code",
+        disabled: false,
+        label: "Zip code"
+      },
+      state: {
+        key: "state",
+        disabled: false,
+        label: "State"
+      },
+      country: {
+        key: "country",
+        disabled: false,
+        label: "Country"
       }
     };
 
@@ -67,5 +87,5 @@ class TableService extends Subject {
     this.next(this);
   }
 }
-const singleton = new TableService();
+const singleton = new ColumnService();
 export default singleton;

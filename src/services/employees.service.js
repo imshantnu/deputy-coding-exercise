@@ -1,6 +1,6 @@
 import { Subject } from "rxjs";
 import Employee from "../model/employee";
-
+const FETCH_URL = "https://5c4002352928860014e06f43.mockapi.io/api/employee";
 class EmployeesService extends Subject {
   constructor() {
     super();
@@ -19,24 +19,19 @@ class EmployeesService extends Subject {
 
   async getList() {
     // using a mock API to return a bunch of users
-    const response = await fetch(
-      "https://5c4002352928860014e06f43.mockapi.io/api/employee"
-    );
+    const response = await fetch(FETCH_URL);
 
     this.handleResponse(response);
   }
 
   async add(data) {
-    const response = await fetch(
-      `https://5c4002352928860014e06f43.mockapi.io/api/employee`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }
-    );
+    const response = await fetch(FETCH_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
     this.addToList(response);
   }
 
