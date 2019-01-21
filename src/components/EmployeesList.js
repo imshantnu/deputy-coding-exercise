@@ -66,7 +66,7 @@ class EmployeesList extends React.Component {
       this.setState({ employees: employees, loading: false });
     });
 
-    this.tableSubscriber = ColumnService.subscribe(svc => {
+    this.columnsObserver = ColumnService.subscribe(svc => {
       this.setState({ ColumnService: svc });
     });
 
@@ -75,7 +75,7 @@ class EmployeesList extends React.Component {
 
   componentWillUnmount() {
     this.observer.unsubscribe();
-    this.tableSubscriber.unsubscribe();
+    this.columnsObserver.unsubscribe();
   }
 
   sort = orderBy => () => {
@@ -140,6 +140,7 @@ class EmployeesList extends React.Component {
       employeeModalConfig,
       addEditEmployeeConfig
     } = this.state;
+
     if (!loading) {
       return (
         <Paper className={classes.root}>
@@ -188,6 +189,7 @@ class EmployeesList extends React.Component {
                     </TableCell>
                   </TableRow>
                 )}
+
                 {employees.map((employee, i) => (
                   <Employee
                     key={i}
@@ -212,6 +214,7 @@ class EmployeesList extends React.Component {
             employee={addEditEmployeeConfig.employee}
             onClose={this.closeAddEditModal}
           />
+
           <Fab
             aria-label="Add New Employee"
             className={classes.fab}

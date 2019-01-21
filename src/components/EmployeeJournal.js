@@ -42,13 +42,10 @@ const styles = theme => ({
   }
 });
 class EmployeeJournal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      saveDisabled: true,
-      newJournalEntry: ""
-    };
-  }
+  state = {
+    saveDisabled: true,
+    newJournalEntry: ""
+  };
 
   validateForm(event) {
     if (event.target.value.length) {
