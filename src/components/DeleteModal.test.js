@@ -1,12 +1,17 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import DeleteModal from "./DeleteModal";
 
-test("DeleteModal shows users warning about deletion", () => {
-  // Render a checkbox with label in the document
-  const component = shallow(
-    <DeleteModal open="true" onClose="deleteEmployee" />
-  );
+describe("Delete Modal", () => {
+  let wrapper;
 
-  expect(component.text()).toEqual("Off");
+  beforeEach(() => {
+    wrapper = mount(<DeleteModal open={true} />);
+  });
+
+  it("should have a display message to confirm deletion", () => {
+    expect(wrapper.find("DialogContentText").text()).toBe(
+      "Are you sure you want to delete this employee?"
+    );
+  });
 });

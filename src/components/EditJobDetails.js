@@ -6,6 +6,7 @@ import SendIcon from "@material-ui/icons/Send";
 const styles = theme => ({
   root: {
     margin: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 4,
     padding: theme.spacing.unit,
     width: "100%"
   },

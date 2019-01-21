@@ -9,11 +9,13 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  IconButton
 } from "@material-ui/core";
 import WorkIcon from "@material-ui/icons/Work";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PeopleIcon from "@material-ui/icons/People";
+import CloseIcon from "@material-ui/icons/Close";
 import EmployeeName from "./EmployeeName";
 import EditGeneralDetails from "./EditGeneralDetails";
 import EditJobDetails from "./EditJobDetails";
@@ -35,7 +37,8 @@ const styles = theme => ({
     whiteSpace: "nowrap"
   },
   main: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginTop: theme.spacing.unit * 4
   },
   paperAnchorLeft: {
     position: "absolute",
@@ -73,6 +76,20 @@ const styles = theme => ({
   },
   item: {
     paddingLeft: 0
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing.unit * 0.5,
+    top: theme.spacing.unit * 0.5,
+    color: theme.palette.grey[500]
+  },
+  "@media (max-width: 767px)": {
+    dialog: {
+      maxWidth: "100%",
+      width: "100%",
+      minHeight: "100%",
+      padding: 0
+    }
   }
 });
 
@@ -155,6 +172,13 @@ class AddEditEmployee extends React.Component {
         className={classes.root}
         maxWidth={false}
       >
+        <IconButton
+          aria-label="Close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
         <DialogContent className={classes.dialog}>
           <Drawer
             variant="permanent"

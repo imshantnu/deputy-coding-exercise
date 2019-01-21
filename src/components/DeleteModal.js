@@ -24,7 +24,7 @@ const DeleteModal = props => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button id="closeButton" onClick={onClose} color="primary">
           Cancel
         </Button>
         <Button onClick={deleteEmployee} color="primary" autoFocus>

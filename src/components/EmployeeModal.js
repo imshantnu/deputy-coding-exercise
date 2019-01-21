@@ -10,13 +10,15 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  IconButton
 } from "@material-ui/core";
 import BookIcon from "@material-ui/icons/Book";
 import PeopleIcon from "@material-ui/icons/People";
 import EmployeeShiftDetails from "./EmployeeShiftDetails";
 import EmployeePersonalDetails from "./EmployeePersonalDetails";
 import EmployeeJournal from "./EmployeeJournal";
+import CloseIcon from "@material-ui/icons/Close";
 
 const drawerWidth = 200;
 const styles = theme => ({
@@ -71,6 +73,22 @@ const styles = theme => ({
   },
   item: {
     paddingLeft: 0
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing.unit * 0.5,
+    top: theme.spacing.unit * 0.5,
+    color: theme.palette.grey[500]
+  },
+  "@media (max-width: 767px)": {
+    dialog: {
+      maxWidth: "100%",
+      width: "100%",
+      maxHeight: "100%",
+      padding: 0,
+      margin: 0,
+      height: "100%"
+    }
   }
 });
 
@@ -94,6 +112,13 @@ class EmployeeModal extends React.Component {
         className={classes.root}
         maxWidth={false}
       >
+        <IconButton
+          aria-label="Close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
         <DialogContent className={classes.dialog}>
           <Drawer
             variant="permanent"
@@ -155,4 +180,4 @@ class EmployeeModal extends React.Component {
   }
 }
 
-export default withMobileDialog()(withStyles(styles)(EmployeeModal));
+export default withStyles(styles)(withMobileDialog()(EmployeeModal));

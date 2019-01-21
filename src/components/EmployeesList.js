@@ -37,6 +37,11 @@ const styles = theme => ({
     position: "fixed",
     bottom: theme.spacing.unit,
     right: theme.spacing.unit
+  },
+  "@media (max-width: 767px)": {
+    root: {
+      margin: theme.spacing.unit
+    }
   }
 });
 
