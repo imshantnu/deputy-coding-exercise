@@ -28,7 +28,7 @@ At this stage, the web app will be available at `https://localhost:3000`.
 
 As part of the interviewing process i was given this take home coding challenge. I was given a pdf document that highlighted what had to be done and general design guidelines and some ground rules.
 
-Though challeneg had no time limits, I did set-up myself a time limit of 10 hours. As I did not wanted to spend more time on it than a weekend.
+Though challenge had no time limits, I did set-up myself a time limit of 10 hours. As I did not wanted to spend more time on it then a weekend.
 
 
 ## Architecture / Tech Stack
