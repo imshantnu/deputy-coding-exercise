@@ -39,8 +39,11 @@ I had a free choice to choose any framework from VueJS/React/Angular. Though I d
 To keep it sensible and within scope I assumed, I had a REST API client which feed me information I needed, ideally I would have liked doing a Koa.js server running node as backen, but for maintaining my gole of 10 hours, i decided to use https://www.mockapi.io/. Its a free online tool that lets you mock api endpoints and do provide fake data while supporting GET, PUT, POST and DELETE(all of which i needed)
 
 ## Retrospective
-It ended up a long challenge which took me whole weekend plus some time to code, i almost spent 12 hours into it and still had to let few things go. I
+It ended up a long challenge which took me whole weekend plus some time to code, I almost spent 12 hours into it and still had to let few things to do.
+
 I was not able to unit test, though it was one of the requiremnents of challenge. for unit testing i had chosen Jest as my testing framework. If i can take more time, this would be the first thing i will do.
+
 Also, the challenge is visually not where I wanted it to be, with responsiveness taking a hit.
+
 Overall, it wqas a massive challenge with a lot of features to be implemented, and I think i did a decent job in wrapping up the functionality. However if i have more time i would like to push some tests and fix the UI across viewports.
 
