@@ -24,6 +24,12 @@ npm run start
 
 At this stage, the web app will be available at `https://localhost:3000`.
 
+To run the test suite (*However there are not many test yet*):
+
+```
+npm run test
+```
+
 ## Premise
 
 As part of the interviewing process i was given this take home coding challenge. I was given a pdf document that highlighted what had to be done and general design guidelines and some ground rules.
@@ -41,9 +47,9 @@ To keep it sensible and within scope I assumed, I had a REST API client which fe
 ## Retrospective
 It ended up a long challenge which took me whole weekend plus some time to code, I almost spent 12 hours into it and still had to let few things to do.
 
-I was not able to unit test, though it was one of the requiremnents of challenge. for unit testing i had chosen Jest as my testing framework. If i can take more time, this would be the first thing i will do.
+I was not able to unit test completeley, was able to only push couple of test, though it was one of the requiremnents of challenge. for unit testing i had chosen **Jest** as my testing framework and used **enzyme** for my component manipulations and **sinon** to spy. If i can take more time, I would like to add to the coverage.
 
-Also, the challenge is visually not where I wanted it to be, with responsiveness taking a hit.
+Also, the challenge is visually not where I wanted it to be with many UI component not looking what they should across viewports, with responsiveness taking a hit.
 
-Overall, it wqas a massive challenge with a lot of features to be implemented, and I think i did a decent job in wrapping up the functionality. However if i have more time i would like to push some tests and fix the UI across viewports.
+Overall, it was a massive challenge with a lot of features to be implemented, and I think i did a decent job in wrapping up the functionality. However if i have more time i would like to push some tests and fix the UI across viewports.
 
