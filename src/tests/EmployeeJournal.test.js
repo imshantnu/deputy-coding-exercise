@@ -1,8 +1,7 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import EmployeeJournal from "../components/EmployeeJournal";
-import sinon from "sinon";
-import { Typography, Fab, TextField } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 describe("Employee Journal Component", () => {
   let employeeMock;

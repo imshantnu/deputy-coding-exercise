@@ -59,7 +59,9 @@ class EmployeesList extends React.Component {
       },
       addEditEmployeeConfig: {
         open: false
-      }
+      },
+      page: 0,
+      rowsPerPage: 5
     };
 
     this.observer = EmployeesService.subscribe(employees => {
@@ -90,8 +92,7 @@ class EmployeesList extends React.Component {
     });
 
     EmployeesService.sortList(orderBy, order).then(() => {
-      EmployeesService.paginate();
-      ColumnService.resetPagination();
+      EmployeesService.paginate(this.state.page, this.state.rowsPerPage);
     });
   };
 
@@ -129,6 +130,16 @@ class EmployeesList extends React.Component {
     });
   };
 
+  handleChangePage = (event, newPage) => {
+    this.setState({ page: newPage });
+    EmployeesService.paginate(newPage, this.state.rowsPerPage);
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
+    EmployeesService.paginate(this.state.page, event.target.value);
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -147,6 +158,10 @@ class EmployeesList extends React.Component {
           <TableControls
             filterList={EmployeesService.filterList.bind(EmployeesService)}
             totalRecords={EmployeesService.list.length}
+            page={this.state.page}
+            rowsPerPage={this.state.rowsPerPage}
+            handleChangePage={this.handleChangePage.bind(this)}
+            handleChangeRowsPerPage={this.handleChangeRowsPerPage.bind(this)}
           />
 
           <div className={classes.tableWrapper}>

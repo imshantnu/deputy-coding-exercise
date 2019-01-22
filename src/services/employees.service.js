@@ -5,7 +5,7 @@ class EmployeesService extends Subject {
   constructor() {
     super();
 
-    this.promise = null;
+    this.promise = null; // the promise of singleton which should be returned
     this.list = [];
   }
 
@@ -23,6 +23,22 @@ class EmployeesService extends Subject {
     const response = await fetch(FETCH_URL);
 
     this.handleResponse(response);
+  }
+
+  async handleResponse(response) {
+    // need to make sure we return promise
+    let data;
+    try {
+      data = await response.json(); // do not resolve until response is received
+      if (data.error) {
+        throw data.error;
+      }
+    } catch (error) {
+      throw error || "An unknown error has occurred";
+    }
+    this.list = data.map(object => new Employee(object));
+    // sort the list and paginate
+    this.sortList().then(() => this.paginate());
   }
 
   async add(data) {
@@ -50,21 +66,6 @@ class EmployeesService extends Subject {
     }
   }
 
-  async handleResponse(response) {
-    let data;
-    try {
-      data = await response.json();
-      if (data.error) {
-        throw data.error;
-      }
-    } catch (error) {
-      throw error || "An unknown error has occurred";
-    }
-    this.list = data.map(object => new Employee(object));
-    // sort the list and paginate
-    this.sortList().then(() => this.paginate());
-  }
-
   async filterList(event) {
     const keyword = event.target ? event.target.value : event;
     if (!keyword.length) {
@@ -88,6 +89,7 @@ class EmployeesService extends Subject {
 
   async sortList(orderBy = "name", order = "asc") {
     // in an ideal world we would have sorting implemented at an API level
+    // i do not prefer sorting on UI as we should ideally be using range headers in fetching records
     await this.list.sort(this.compare(orderBy, order));
   }
 
@@ -98,6 +100,7 @@ class EmployeesService extends Subject {
     }
     if (property === "name") property = "firstName";
     return (a, b) => {
+      // compare the values for specific property
       const result =
         a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
       return result * sortOrder;

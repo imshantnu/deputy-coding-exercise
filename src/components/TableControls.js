@@ -1,5 +1,4 @@
 import React from "react";
-import EmployeeService from "../services/employees.service";
 import ColumnService from "../services/columns.service";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -58,7 +57,9 @@ class TableControls extends React.Component {
     super(props);
 
     this.state = {
-      ColumnService: ColumnService
+      ColumnService: ColumnService,
+      page: 0,
+      rowsPerPage: 5
     };
 
     this.observer = ColumnService.subscribe(svc =>
@@ -74,18 +75,17 @@ class TableControls extends React.Component {
     ColumnService.updateColumns(event.target.value);
   };
 
-  handleChangePage = (event, newPage) => {
-    ColumnService.page = newPage;
-    EmployeeService.paginate(ColumnService.page, ColumnService.rowsPerPage);
-  };
-
-  handleChangeRowsPerPage = event => {
-    ColumnService.rowsPerPage = event.target.value;
-    EmployeeService.paginate(ColumnService.page, ColumnService.rowsPerPage);
-  };
-
   render() {
-    const { totalRecords, filterList, classes } = this.props;
+    const {
+      totalRecords,
+      filterList,
+      classes,
+      page,
+      rowsPerPage,
+      handleChangePage,
+      handleChangeRowsPerPage
+    } = this.props;
+
     const { ColumnService } = this.state;
 
     return (
@@ -132,16 +132,16 @@ class TableControls extends React.Component {
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={totalRecords}
-          rowsPerPage={ColumnService.rowsPerPage}
-          page={ColumnService.page}
+          rowsPerPage={rowsPerPage}
+          page={page}
           backIconButtonProps={{
             "aria-label": "Previous Page"
           }}
           nextIconButtonProps={{
             "aria-label": "Next Page"
           }}
-          onChangePage={this.handleChangePage.bind(this)}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage.bind(this)}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Toolbar>
     );

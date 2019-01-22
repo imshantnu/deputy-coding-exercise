@@ -65,10 +65,6 @@ class ColumnService extends Subject {
 
     // create an iterable array of all the selected columns
     this.selectedColumns = ["name", "email"];
-
-    // pagination settings
-    this.page = 0;
-    this.rowsPerPage = 5;
   }
 
   isColumnSelected(key) {
@@ -77,13 +73,6 @@ class ColumnService extends Subject {
 
   updateColumns(columns) {
     this.selectedColumns = columns;
-    this.next(this);
-  }
-
-  resetPagination() {
-    // pagination settings
-    this.page = 0;
-    this.rowsPerPage = 5;
     this.next(this);
   }
 }
