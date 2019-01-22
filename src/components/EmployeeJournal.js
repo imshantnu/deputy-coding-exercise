@@ -84,8 +84,8 @@ class EmployeeJournal extends React.Component {
         {employee.journals.length === 0 && (
           <Paper className={classes.paper} elevation={1}>
             <Typography component="p" className={classes.p}>
-              <BookIcon className={classes.icon} /> No Journal entries available
-              yet!
+              <BookIcon className={classes.icon} />
+              No Journal entries available yet!
             </Typography>
           </Paper>
         )}
@@ -95,7 +95,7 @@ class EmployeeJournal extends React.Component {
             {employee.journals.map((journal, i) => (
               <Paper key={i} className={classes.paper} elevation={1}>
                 <Typography component="p" className={classes.p}>
-                  <BookIcon className={classes.icon} />{" "}
+                  <BookIcon className={classes.icon} />
                   {new Date(journal.date).toDateString()}
                 </Typography>
                 <Typography component="em" className={classes.p}>
